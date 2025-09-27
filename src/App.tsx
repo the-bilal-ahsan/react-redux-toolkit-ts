@@ -1,10 +1,22 @@
 import { useSelector } from "react-redux";
-import type { RootState } from "./store/store";
+import AddTodo from "./components/AddTodo";
+import Todos from "./components/Todos";
+import { fetchTodosRedux } from "./store/slices/todo";
+import { useAppDispatch, type RootState } from "./store/store";
 
 function App() {
-  const todo = useSelector((state: RootState) => state.todo);
-  console.log(todo);
-  return <>Hello React TS</>;
+  const dispatch = useAppDispatch();
+  const { isLoading } = useSelector((state: RootState) => state.todo);
+
+  return isLoading ? (
+    <>Loading Todos</>
+  ) : (
+    <>
+      <button onClick={() => dispatch(fetchTodosRedux())}>Fetch Todos</button>
+      <AddTodo />
+      <Todos />
+    </>
+  );
 }
 
 export default App;
